@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api";
 
 export async function playPauseSeter(state)
 {
-    if(state == "playing"){
+    if(state == "pause_circle_filled"){
         await pause();
         return;
     };
@@ -50,4 +50,12 @@ export async function seek(value){
     } catch (err) {
         console.log(err);
     }
+}
+
+export const playerEnventsTypes = {
+    "Load": "Load",
+    "Play": "Play",
+    "Pause": "Pause",
+    "Seek": "Seek",
+    "End": "End",
 }

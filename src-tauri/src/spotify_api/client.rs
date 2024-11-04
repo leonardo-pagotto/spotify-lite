@@ -1,6 +1,6 @@
-use reqwest::{header::{AUTHORIZATION}};
+use reqwest::header::AUTHORIZATION;
 
-use crate::{spotify_api::api_models::*};
+use crate::spotify_api::api_models::*;
 
 #[tauri::command]
 pub async fn get_playlist(access_token:&str) -> Result<Page<Playlist>, String>
@@ -45,7 +45,6 @@ pub async fn get_playlist_tracks(access_token:&str,  playlist_id:&str, offset: u
 #[tauri::command]
 pub async fn validate_access_token(access_token:&str) -> Result<(), ()>
 {
-
     let req = reqwest::Client::new()
         .get(format!("https://api.spotify.com/v1/me "))
         .header(AUTHORIZATION, format!("Bearer {}", access_token))

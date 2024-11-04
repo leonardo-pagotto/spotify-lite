@@ -18,11 +18,6 @@ use serde::{Serialize, Deserialize};
 pub struct PlayerState {
     pub player: Arc<Mutex<Player>>,
     pub volume: Volume,
-    pub session: SessionData,
-}
-
-pub struct SessionData {
-    pub session: Session,
 }
 
 pub struct Volume {
@@ -51,6 +46,14 @@ pub struct PlayerEventData{
     pub position_ms: u32,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum SessionConnectionError {
+    InvalidCredentials,
+    UnknownError,
+    InvalidCacheCredentials,
+    UnableToGetAccessToken,
+}
+
 // INPLEMENTATIONS
 impl Volume {
     pub fn new(controller: Box<SoftMixer>) -> Volume {
@@ -63,11 +66,10 @@ impl Volume {
 }
 
 impl PlayerState{
-    pub fn new(player: Arc<Mutex<Player>>, volume: Volume, session: SessionData) -> PlayerState {
+    pub fn new(player: Arc<Mutex<Player>>, volume: Volume) -> PlayerState {
         PlayerState {
             player,
             volume,
-            session
         }
     }
 

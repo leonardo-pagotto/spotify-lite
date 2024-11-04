@@ -1,22 +1,39 @@
-import React from 'react';
-import { invoke } from '@tauri-apps/api';
+import React, { useEffect, useState } from 'react';
+import { emit } from '@tauri-apps/api/event'
+import { invoke } from '@tauri-apps/api/tauri'
+import { playerEnventsTypes } from '../../services/player';
 
 import './style.css';
 
-function TrackCard({id, name, image, artist, album, duration}) {
-
-    async function playTrack(trackId)
+function TrackCard({position, id, name, image, artist, album, duration}) {
+    
+    function transformTime()
     {
-        try {
-            await invoke("load_track", {id: trackId});
-        } catch (error) {
-            console.log(error);
+        const totalSeconds = Math.floor(duration / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+
+        if (hours > 0) {
+            return `${hours}:${minutes}:${seconds}`;
         }
+        
+        return `${minutes}:${seconds}`;
+    }
+
+    function playTrack()
+    {
+        invoke('load_track', { id });
+        emit('player://client_handler', {
+            event: playerEnventsTypes.Load, 
+            data: {id, name, image, artist, album, duration} 
+        });
     }
 
     return (
-        <div className='track_card' onClick={() => playTrack(id)}>
+        <div className='track_card' onClick={playTrack}>
             <div className='about'>
+                <span className='position'>{position}</span>
                 <img className='image' src={image} alt="" />
                 <div className='music_data'>
                     <span className='name'>{name}</span>
@@ -24,7 +41,7 @@ function TrackCard({id, name, image, artist, album, duration}) {
                 </div>
             </div>
             <span className='album'>{album}</span>
-            <span className='duration'>{duration}</span>
+            <span className='duration'>{transformTime()}</span>
         </div>
     );
 }

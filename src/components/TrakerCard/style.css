@@ -6,21 +6,31 @@
     justify-content: space-between;
     color: white;
     align-items: center;
+
+    font-size: 11pt;
 }
+
+.track_card .position{
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .track_card .image{
-    width: 50px;
+    width: 45px;
     margin-right: 10px;
 }
 .track_card > .about{
     display: flex;
-    align-items: center;
 }
 
 .track_card .music_data{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding: 1px;
 }
-
 
 .track_card:hover{
     background-color: #5555555e;

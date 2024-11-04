@@ -4,17 +4,26 @@ import TrackCard from '../../components/TrakerCard/TrackCard';
 
 import './style.css';
 
-function Playlist({tracks}) {
+function Playlist({currentPlaylist}) {
 
     useEffect(() => {
-        console.log(tracks);
-    }, [tracks]);
+        console.log(currentPlaylist);
+    });
 
     return (
         <div className='playlist'>
+            <div className='header'>
+                <div className='informations'>
+                    <img src={currentPlaylist} alt="" />
+                </div>
+                <div className='controllers'>
+
+                </div>
+            </div>
             <div className='content'>
-                {tracks?.map(track => {
-                    return <TrackCard 
+                {currentPlaylist?.tracks?.map((track, position) => {
+                    return <TrackCard
+                        position={position + 1}
                         key={track.id}
                         id={track.id}
                         name={track.name} 
